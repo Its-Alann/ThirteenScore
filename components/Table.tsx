@@ -9,6 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function BasicTable() {
   interface Player {
@@ -17,29 +19,40 @@ export default function BasicTable() {
   }
 
   const [ID, setID] = useState(2);
+  const [validNames, setValidNames] = useState(true);
 
   const [players, setPlayers] = useState<Player[]>([
-    { id: 1, name: "Player 1" },
+    { id: 0, name: "Player 1" },
+    { id: 1, name: "Player 2" },
   ]);
 
   const addPlayer = (ID: number) => {
     const newPlayer: Player = {
       id: ID,
-      name: `Player ${ID}`,
+      name: `Player ${ID + 1}`,
     };
     setID(ID + 1);
     setPlayers([...players, newPlayer]);
-    console.log(players);
   };
 
   const removePlayer = (id: number) => {
     setPlayers(players.filter((player) => player.id !== id));
   };
 
-  const changeName = (id: number, name: string) => {
-    const updatedPlayers = players.map((player) =>
-      player.id === id ? { ...player, name: name } : player
-    );
+  const changeNames = (id: number, name: string) => {
+    players.map((player) => {
+      if (player.id === id) {
+        player.name = name;
+      }
+    });
+
+    // Need to find an alt for this
+    checkNames();
+  };
+
+  const checkNames = () => {
+    const isValid = players.every((player) => player.name.trim() !== "");
+    setValidNames(isValid);
   };
 
   return (
@@ -63,9 +76,11 @@ export default function BasicTable() {
                     <input
                       type="text"
                       placeholder="Enter name"
-                      className="input input-bordered input-sm  w-1/2 max-w-xs"
-                      defaultValue={`Player ${player.id}`}
-                      onChange={() => changeName(player.id)}
+                      className="input input-bordered input-sm w-1/2 max-w-xs"
+                      defaultValue={`Player ${player.id + 1}`}
+                      onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                        changeNames(player.id, e.currentTarget.value)
+                      }
                     />
                   </TableCell>
                   <TableCell align="right">
@@ -101,10 +116,56 @@ export default function BasicTable() {
         <button
           type="submit"
           className="btn btn-primary"
-          onClick={() => console.log(players)}
+          onClick={() => {
+            checkNames();
+            if (validNames && players.length >= 2) {
+              console.log(players);
+            } else {
+              if (!validNames) {
+                console.error("Invalid player names");
+                toast.error("Enter all player names", {
+                  position: "bottom-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                });
+              }
+              if (players.length < 2) {
+                toast.error("Minimum 2 players required", {
+                  position: "bottom-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                });
+              }
+            }
+          }}
         >
           Start
         </button>
+      </div>
+
+      <div>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
     </div>
   );
