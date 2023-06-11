@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "../components/Navbar";
+import { PlayerContextProvider } from "./context/player";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export default function RootLayout({
     <html data-theme="winter" lang="en">
       <body>
         <Navbar />
-        {children}
+        <PlayerContextProvider>{children}</PlayerContextProvider>
       </body>
     </html>
   );
