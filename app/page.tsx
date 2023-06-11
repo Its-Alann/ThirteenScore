@@ -3,7 +3,7 @@ import Table from "@/components/Table";
 
 const page = () => {
   return (
-    <div className="flex flex-col items-center h-screen mt-40">
+    <div className="flex flex-col items-center mt-40">
       <div>
         <p className="font-bold text-4xl">Welcome to ThirteenScore</p>
       </div>
