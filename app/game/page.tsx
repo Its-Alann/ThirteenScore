@@ -17,8 +17,23 @@ const Page = () => {
     router.push("/");
   };
 
-  const handleNextRound = () => {
+  const [history, setHistory] = useState([{ round: 0, score: 0 }]);
+
+  const handleNextRound = (round: number, score: number) => {
     setRound(round + 1);
+    setHistory((prevHistory) => {
+      if (round === 1) {
+        prevHistory.pop();
+      }
+      return [
+        ...prevHistory,
+        {
+          round,
+          score,
+        },
+      ];
+    });
+    console.log("history", history);
   };
 
   return (
@@ -29,7 +44,7 @@ const Page = () => {
       </div>
       <div className="font-bold text-xl text-secondary my-10"> Scoreboard </div>
       <div className="w-1/4 items-center">
-        <Scoreboard round={round} />
+        <Scoreboard round={round} history={history} />
       </div>
       <div className="space-x-8 my-14">
         <span>
@@ -47,7 +62,7 @@ const Page = () => {
           <button
             className="btn btn-sm btn-outline btn-primary normal-case w-40 h-12"
             onClick={() => {
-              handleNextRound();
+              handleNextRound(round, 44);
             }}
           >
             Next Round

@@ -13,24 +13,19 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { usePlayerContext } from "../app/context/player";
 
-export function createData(player: string, score: number) {
+export function createData(
+  player: string,
+  score: number,
+  history: { round: number; score: number }[]
+) {
   return {
     player,
     score,
-    history: [
-      {
-        round: 1,
-        score: 0,
-      },
-      {
-        round: 2,
-        score: 12,
-      },
-    ],
+    history,
   };
 }
 
-function Row(props: { row: ReturnType<typeof createData> }) {
+function Row(props: { row: ReturnType<typeof createData>; round: number }) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -76,26 +71,31 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                       <TableCell align="right">Score</TableCell>
                     </TableRow>
                   </TableHead>
-                  <TableBody>
-                    {row.history.map((historyRow) => (
-                      <TableRow key={historyRow.round}>
-                        <TableCell component="th" scope="row">
-                          {historyRow.round}
-                        </TableCell>
-                        <TableCell align="right">
-                          <input
-                            type="text"
-                            placeholder=""
-                            className="input input-bordered input-xs w-14 max-w-xs"
-                            defaultValue={historyRow.score}
-                            // onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                            //   changeNames(player.id, e.currentTarget.value)
-                            // }
-                          />
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
+
+                  {props.round === 1 ? (
+                    <></>
+                  ) : (
+                    <TableBody>
+                      {row.history.map((historyRow) => (
+                        <TableRow key={historyRow.round}>
+                          <TableCell component="th" scope="row">
+                            {historyRow.round}
+                          </TableCell>
+                          <TableCell align="right">
+                            <input
+                              type="text"
+                              placeholder=""
+                              className="input input-bordered input-xs w-14 max-w-xs"
+                              defaultValue={historyRow.score}
+                              // onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                              //   changeNames(player.id, e.currentTarget.value)
+                              // }
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  )}
                 </Table>
               </Box>
             </div>
@@ -106,16 +106,21 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   );
 }
 
-export default function CollapsibleTable(props: { round: number }) {
+export default function CollapsibleTable(props: {
+  round: number;
+  history: { round: number; score: number }[];
+}) {
   const { players, setPlayers } = usePlayerContext();
-  const rows = players.map((player) => createData(player.name, player.score));
+  const rows = players.map((player) =>
+    createData(player.name, player.score, props.history)
+  );
 
   return (
     <TableContainer component={Paper} sx={{ boxShadow: 0 }}>
       <Table aria-label="collapsible table">
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.player} row={row} />
+            <Row key={row.player} row={row} round={props.round} />
           ))}
         </TableBody>
       </Table>
