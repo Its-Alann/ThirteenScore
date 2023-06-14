@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { usePlayerContext } from "../app/context/player";
 
-function createData(player: string, score: number) {
+export function createData(player: string, score: number) {
   return {
     player,
     score,
@@ -36,7 +36,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 
   return (
     <React.Fragment>
-      <TableRow>
+      <TableRow sx={{ borderBottom: 2 }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -49,31 +49,56 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell component="th" scope="row">
           {row.player}
         </TableCell>
-        <TableCell align="right">{row.score}</TableCell>
+        <TableCell align="right">
+          <input
+            type="text"
+            placeholder=""
+            className="input input-bordered input-sm w-14 max-w-xs"
+            defaultValue={row.score}
+            // onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            //   changeNames(player.id, e.currentTarget.value)
+            // }
+          />
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell
+          style={{ padding: 0, backgroundColor: "#f0f7ff" }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Round</TableCell>
-                    <TableCell align="right">Score</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.round}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.round}
-                      </TableCell>
-                      <TableCell align="right">{historyRow.score}</TableCell>
+            <div>
+              <Box>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Round</TableCell>
+                      <TableCell align="right">Score</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
+                  </TableHead>
+                  <TableBody>
+                    {row.history.map((historyRow) => (
+                      <TableRow key={historyRow.round}>
+                        <TableCell component="th" scope="row">
+                          {historyRow.round}
+                        </TableCell>
+                        <TableCell align="right">
+                          <input
+                            type="text"
+                            placeholder=""
+                            className="input input-bordered input-xs w-14 max-w-xs"
+                            defaultValue={historyRow.score}
+                            // onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                            //   changeNames(player.id, e.currentTarget.value)
+                            // }
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </div>
           </Collapse>
         </TableCell>
       </TableRow>
@@ -81,7 +106,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   );
 }
 
-export default function CollapsibleTable() {
+export default function CollapsibleTable(props: { round: number }) {
   const { players, setPlayers } = usePlayerContext();
   const rows = players.map((player) => createData(player.name, player.score));
 
