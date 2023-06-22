@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "../components/Navbar";
 import { PlayerContextProvider } from "./context/player";
+import bgImg from "../public/blob-scene-haikei.svg";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html data-theme="winter" lang="en">
-      <body>
+    <html data-theme="winter" lang="en" style={{ height: "100%" }}>
+      <body style={{ height: "100%", margin: 0, backgroundRepeat: "repeat" }}>
         <Navbar />
         <PlayerContextProvider>{children}</PlayerContextProvider>
       </body>

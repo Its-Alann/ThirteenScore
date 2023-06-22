@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  background-image: url(/blob-scene-haikei.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+/* CSS */
+::-webkit-scrollbar {
+  width: 5px; /* Customize the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #aadcff; /* Customize the color of the scrollbar thumb */
+  border-radius: 5px; /* Customize the border radius of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #83ccff; /* Customize the color of the scrollbar thumb on hover */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Customize the color of the scrollbar track */
+}
