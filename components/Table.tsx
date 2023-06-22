@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Link from "next/link";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi";
+import { FaSpinner } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { usePlayerContext, Player } from "@/app/context/player";
@@ -20,6 +21,7 @@ export default function BasicTable() {
   const [validNames, setValidNames] = useState(true);
   const router = useRouter();
   const { players, setPlayers } = usePlayerContext();
+  const [loading, setLoading] = useState(false);
 
   // const [players, setPlayers] = useState<Player[]>([
   //   { id: 0, name: "Player 1" },
@@ -31,6 +33,7 @@ export default function BasicTable() {
       id: ID,
       name: `Player ${ID + 1}`,
       score: 0,
+      history: [],
     };
     setID(ID + 1);
     setPlayers([...players, newPlayer]);
@@ -58,11 +61,13 @@ export default function BasicTable() {
 
   const handleSubmit = () => {
     if (validNames && players.length >= 2) {
+      setLoading(true);
       console.log(players);
       setPlayers(players);
       router.push("/game");
     } else {
       if (!validNames) {
+        setLoading(false);
         console.error("Invalid player names");
         toast.error("Enter all player names", {
           position: "bottom-center",
@@ -92,17 +97,23 @@ export default function BasicTable() {
 
   useEffect(() => {
     setPlayers([
-      { id: 0, name: "Player 1", score: 0 },
-      { id: 1, name: "Player 2", score: 0 },
+      { id: 0, name: "Player 1", score: 0, history: [] },
+      { id: 1, name: "Player 2", score: 0, history: [] },
     ]);
   }, []);
 
   return (
     <div>
       <div>
-        <TableContainer component={Paper} className="shadow-md">
+        <TableContainer
+          component={Paper}
+          style={{ maxHeight: "400px", overflowY: "auto" }}
+          className="shadow-md"
+        >
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
+            <TableHead
+              style={{ position: "sticky", top: 0, background: "white" }}
+            >
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell align="right"> {} </TableCell>
@@ -161,8 +172,16 @@ export default function BasicTable() {
           onClick={() => {
             handleSubmit();
           }}
+          disabled={loading} // Disable the button while loading
         >
-          Start
+          {loading ? (
+            <div className="flex items-center">
+              <span> Loading </span>
+              <FaSpinner className="animate-spin ml-3" />
+            </div>
+          ) : (
+            "Start"
+          )}
         </button>
       </div>
 
