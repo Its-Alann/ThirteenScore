@@ -6,21 +6,7 @@ import Link from "next/link";
 const Navbar = () => {
   const [confirmNavigation, setConfirmNavigation] = useState(false);
 
-  useEffect(() => {
-    const handleBeforeUnload = (event: any) => {
-      if (window.location.pathname === "/game") {
-        event.preventDefault();
-        event.returnValue = ""; // Chrome requires a non-empty string value
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [confirmNavigation]);
-
+  // Checks whether you have started a game, if so it will ask for a confirmation to go back to the landing page
   const handleLogoClick = (event: any) => {
     if (window.location.pathname === "/game") {
       const userConfirmation = window.confirm(

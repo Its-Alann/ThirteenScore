@@ -16,11 +16,13 @@ const Page = () => {
   const MAX_ROUND = 13;
   const [loading, setLoading] = useState(false);
 
+  // Brings user back to the landing page
   const handleRestart = () => {
     setLoading(true);
     router.push("/");
   };
 
+  // Brings the user to the next page
   const handleNextRound = (round: number) => {
     players.map((player) => {
       player.history?.push({ round: round, score: player.score });
@@ -40,6 +42,7 @@ const Page = () => {
         <Scoreboard round={round} />
       </div>
       <div className="space-x-8 my-14">
+        {/* This is for the modal that pops up when the user clicks on Restart */}
         <span>
           <button
             className="btn btn-sm btn-outline btn-error normal-case w-40 h-12 transition duration-500 ease-in-out hover:scale-105"

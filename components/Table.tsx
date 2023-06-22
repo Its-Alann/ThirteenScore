@@ -8,7 +8,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Link from "next/link";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi";
 import { FaSpinner } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,11 +22,7 @@ export default function BasicTable() {
   const { players, setPlayers } = usePlayerContext();
   const [loading, setLoading] = useState(false);
 
-  // const [players, setPlayers] = useState<Player[]>([
-  //   { id: 0, name: "Player 1" },
-  //   { id: 1, name: "Player 2" },
-  // ]);
-
+  // Adds a player to the Players[]
   const addPlayer = (ID: number) => {
     const newPlayer: Player = {
       id: ID,
@@ -39,10 +34,12 @@ export default function BasicTable() {
     setPlayers([...players, newPlayer]);
   };
 
+  // Removes a player from the Players[]
   const removePlayer = (id: number) => {
     setPlayers(players.filter((player) => player.id !== id));
   };
 
+  // Changes the name of a player in the Players[]
   const changeNames = (id: number, name: string) => {
     players.map((player) => {
       if (player.id === id) {
@@ -54,11 +51,14 @@ export default function BasicTable() {
     checkNames();
   };
 
+  // Checks if all players have a name
   const checkNames = () => {
     const isValid = players.every((player) => player.name.trim() !== "");
     setValidNames(isValid);
   };
 
+  // Verifies if all players have names and there are more than two players,
+  // other wise it gives an error message
   const handleSubmit = () => {
     if (validNames && players.length >= 2) {
       setLoading(true);
@@ -95,6 +95,7 @@ export default function BasicTable() {
     }
   };
 
+  // Starts the game with two players already loaded
   useEffect(() => {
     setPlayers([
       { id: 0, name: "Player 1", score: 0, history: [] },
@@ -165,6 +166,8 @@ export default function BasicTable() {
           </Table>
         </TableContainer>
       </div>
+
+      {/* Once you click on start it will verify everything and show a spinner while loading */}
       <div className="flex flex-col items-center m-10">
         <button
           type="submit"
@@ -185,6 +188,7 @@ export default function BasicTable() {
         </button>
       </div>
 
+      {/* This is the container for the error messages */}
       <div>
         <ToastContainer
           position="bottom-center"

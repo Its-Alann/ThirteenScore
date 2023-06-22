@@ -27,6 +27,7 @@ export function createData(
   };
 }
 
+// Creates the rows in the Scoreboard
 function Row(props: {
   row: ReturnType<typeof createData>;
   round: number;
@@ -37,6 +38,8 @@ function Row(props: {
   const { players, setPlayers } = usePlayerContext();
   const [defaultScore, setDefaultScore] = React.useState(0);
 
+  // Takes the Player[] and finds the correct player for the specified row. Once the player is found
+  // his current score is updated to whatever is inputted by the user
   const updateCurrentScore = (playerID: number, score: number) => {
     players.map((player) => {
       if (player.id == playerID) {
@@ -46,6 +49,8 @@ function Row(props: {
     setDefaultScore(0);
   };
 
+  // Calculates the total score for each player. Similar to updateCurrentScore() it will find the correct
+  // player and then sum the score property in the history[]
   const calculateTotal = (playerID: number): number => {
     const foundPlayer = players.find((player) => playerID === player.id);
     if (foundPlayer) {
@@ -61,6 +66,7 @@ function Row(props: {
   return (
     <React.Fragment>
       <TableRow sx={{ borderBottom: 2 }}>
+        {/* This is for the dropdown arrow that shows the history for each player*/}
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -70,20 +76,25 @@ function Row(props: {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
+
+        {/* This shows the names of each player */}
         <TableCell component="th" scope="row" align="right">
           {row.player}
         </TableCell>
+
+        {/* This is where the user inputs the score the player got in the round */}
         <TableCell align="right">
           <input
             type="number"
             placeholder=""
             className="input input-bordered input-sm w-14 max-w-xs"
-            // defaultValue={defaultScore}
             onChange={(e: React.FormEvent<HTMLInputElement>) =>
               updateCurrentScore(props.playerID, e.currentTarget.valueAsNumber)
             }
           />
         </TableCell>
+
+        {/* This shows the total score of the player */}
         <TableCell component="th" scope="row" align="right">
           <input
             type="number"
@@ -94,6 +105,8 @@ function Row(props: {
           />
         </TableCell>
       </TableRow>
+
+      {/* These are the rows found in the dropdown */}
       <TableRow>
         <TableCell
           style={{ padding: 0, backgroundColor: "#f0f7ff" }}
@@ -110,6 +123,8 @@ function Row(props: {
                     </TableRow>
                   </TableHead>
 
+                  {/* Goes through the Players[] and find each player. If the playerID of the row (props.playerID) 
+                  matches the playerID found in the Players[], we will load the history of this player */}
                   <TableBody>
                     {players.map((player) => {
                       if (player.id == props.playerID) {
@@ -148,8 +163,11 @@ function Row(props: {
 export default function CollapsibleTable(props: { round: number }) {
   const { players, setPlayers } = usePlayerContext();
 
+  // This needs to be continued, its to sort the players based on their score. Probably will need to
+  // add a new field in the Player context
   // const sortedPlayers = players.sort((a, b) => a.score - b.score);
 
+  // Creates the rows for the table
   const rows = players.map((player) => {
     console.log("player array", players);
     return createData(
