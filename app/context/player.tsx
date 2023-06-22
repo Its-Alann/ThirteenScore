@@ -6,6 +6,7 @@ export interface Player {
   id: number;
   name: string;
   score: number;
+  history?: { round: number; score: number }[];
 }
 
 interface PlayerContextProps {
