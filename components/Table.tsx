@@ -168,7 +168,7 @@ export default function BasicTable() {
       <div className="flex flex-col items-center m-10">
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-primary transition duration-500 ease-in-out hover:scale-110"
           onClick={() => {
             handleSubmit();
           }}
