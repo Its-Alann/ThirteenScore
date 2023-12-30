@@ -27,15 +27,13 @@ const Page = () => {
     players.map((player) => {
       player.history?.push({ round: round, score: player.score });
     });
-
     setRound(round + 1);
   };
 
   return (
     <div className="flex flex-col items-center">
       <div className="font-bold text-4xl text-primary mt-40">
-        {" "}
-        Round {round}{" "}
+        {round <= MAX_ROUND ? `Round ${round}` : "Results"}
       </div>
       <div className="font-bold text-xl text-secondary my-10"> Scoreboard </div>
       <div className="w-600 items-center shadow-2xl">
@@ -102,15 +100,21 @@ const Page = () => {
           </dialog>
         </span>
         <span>
-          <button
-            className="btn btn-sm btn-outline btn-primary normal-case w-40 h-12 transition duration-500 ease-in-out hover:scale-110"
-            onClick={() => {
-              handleNextRound(round);
-            }}
-          >
-            Next Round
-            <AiFillCaretRight />
-          </button>
+          {round <= MAX_ROUND ? (
+            <button
+              className="btn btn-sm btn-outline btn-primary normal-case w-40 h-12 transition duration-500 ease-in-out hover:scale-110"
+              onClick={() => {
+                if (round <= MAX_ROUND) {
+                  handleNextRound(round);
+                }
+              }}
+            >
+              {round < MAX_ROUND ? "Next Round" : "Finish"}
+              <AiFillCaretRight />
+            </button>
+          ) : (
+            <></>
+          )}
         </span>
       </div>
     </div>
