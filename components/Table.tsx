@@ -104,14 +104,14 @@ export default function BasicTable() {
   }, []);
 
   return (
-    <div>
+    <div className="min-w-full">
       <div>
         <TableContainer
           component={Paper}
           style={{ maxHeight: "400px", overflowY: "auto" }}
           className="shadow-md"
         >
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table aria-label="simple table">
             <TableHead
               style={{ position: "sticky", top: 0, background: "white" }}
             >
@@ -130,7 +130,7 @@ export default function BasicTable() {
                     <input
                       type="text"
                       placeholder="Enter name"
-                      className="input input-bordered input-sm w-1/2 max-w-xs"
+                      className="input input-bordered input-sm w-full max-w-md"
                       defaultValue={`Player ${player.id + 1}`}
                       onChange={(e: React.FormEvent<HTMLInputElement>) =>
                         changeNames(player.id, e.currentTarget.value)
@@ -168,7 +168,7 @@ export default function BasicTable() {
       </div>
 
       {/* Once you click on start it will verify everything and show a spinner while loading */}
-      <div className="flex flex-col items-center m-10">
+      <div className="flex flex-col items-center mt-5">
         <button
           type="submit"
           className="btn btn-primary transition duration-500 ease-in-out hover:scale-110"

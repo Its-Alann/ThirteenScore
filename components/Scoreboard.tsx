@@ -17,13 +17,15 @@ export function createData(
   player: string,
   score: number,
   history: { round: number; score: number }[],
-  id: number
+  id: number,
+  totalScore: number
 ) {
   return {
     player,
     score,
     history,
     id,
+    totalScore,
   };
 }
 
@@ -78,7 +80,7 @@ function Row(props: {
         </TableCell>
 
         {/* This shows the names of each player */}
-        <TableCell component="th" scope="row" align="right">
+        <TableCell component="th" scope="row" align="center">
           {row.player}
         </TableCell>
 
@@ -133,16 +135,19 @@ function Row(props: {
                             <TableCell component="th" scope="row">
                               {historyRow.round}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell align="right" className="w-10">
                               <input
                                 type="number"
                                 placeholder=""
-                                className="input input-bordered input-xs w-14 max-w-xs"
+                                className="input input-bordered text-center w-full input-xs max-w-xs"
                                 defaultValue={historyRow.score}
-                                disabled
-                                // onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                                //   changeNames(player.id, e.currentTarget.value)
-                                // }
+                                // disabled
+                                onChange={(
+                                  e: React.FormEvent<HTMLInputElement>
+                                ) =>
+                                  (historyRow.score =
+                                    e.currentTarget.valueAsNumber)
+                                }
                               />
                             </TableCell>
                           </TableRow>
@@ -170,26 +175,26 @@ export default function CollapsibleTable(props: { round: number }) {
   // Creates the rows for the table
   const rows = players
     .map((player) => {
-      console.log("player array", players);
       return createData(
         player.name,
         player.score,
         player.history || [],
-        player.id
+        player.id,
+        player.history?.reduce((sum, entry) => sum + entry.score, 0) || 0
       );
     })
-    .sort((a, b) => a.score - b.score);
+    .sort((a, b) => a.totalScore - b.totalScore);
 
   return (
     <TableContainer
       component={Paper}
       sx={{ boxShadow: 0 }}
-      style={{ maxHeight: "400px", overflowY: "auto", minWidth: 600 }}
+      style={{ maxHeight: "400px", overflowY: "auto" }}
+      className="shadow-md"
     >
       <Table aria-label="collapsible table">
         <TableBody>
           {rows.map((row) => {
-            console.log(row.id);
             return (
               <Row
                 key={row.id}

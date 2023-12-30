@@ -31,15 +31,15 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="font-bold text-4xl text-primary mt-40">
+    <div className="flex flex-col items-center px-52">
+      <div className="font-bold text-4xl text-primary mt-40 text-center">
         {round <= MAX_ROUND ? `Round ${round}` : "Results"}
       </div>
       <div className="font-bold text-xl text-secondary my-10"> Scoreboard </div>
-      <div className="w-600 items-center shadow-2xl">
+      <div className="flex min-w-full items-center shadow-2xl">
         <Scoreboard round={round} />
       </div>
-      <div className="space-x-8 my-14">
+      <div className="gap-4 my-14 flex flex-col md:flex-row">
         {/* This is for the modal that pops up when the user clicks on Restart */}
         <span>
           <button

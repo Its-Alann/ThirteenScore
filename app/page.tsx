@@ -3,18 +3,14 @@ import Table from "@/components/Table";
 
 const page = () => {
   return (
-    <div className="flex flex-col items-center mt-40">
-      <div>
-        <p className="font-bold text-4xl">Welcome to ThirteenScore</p>
-      </div>
-      <div className="text-xl">
+    <div className="flex flex-col justify-center w-full py-20 px-10 md:px-52">
+      <p className="font-bold text-4xl text-center">Welcome to ThirteenScore</p>
+      <p className="text-xl text-center">
         Let&apos;s get you started with your 3-13 game
-      </div>
-      <div className="mt-20">
-        <div className=" text-lg">Enter the names of the players</div>
-        <div>
-          <Table />
-        </div>
+      </p>
+      <p className=" text-lg pt-10">Enter the names of the players</p>
+      <div className="flex items-center w-full">
+        <Table />
       </div>
     </div>
   );
