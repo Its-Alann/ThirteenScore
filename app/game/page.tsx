@@ -44,12 +44,17 @@ const Page = () => {
         <span>
           <button
             className="btn btn-sm btn-outline btn-error normal-case w-40 h-12 transition duration-500 ease-in-out hover:scale-105"
-            onClick={() => window.my_modal_2.showModal()}
+            onClick={() => {
+              const modal = document.getElementById(
+                "my_modal_1"
+              ) as HTMLDialogElement | null;
+              modal?.showModal();
+            }}
           >
             Restart
             <VscDebugRestart />
           </button>
-          <dialog id="my_modal_2" className="modal">
+          <dialog id="my_modal_1" className="modal">
             <form method="dialog" className="modal-box">
               <h3 className="font-bold text-lg">Oh oh</h3>
               <p className="py-4">

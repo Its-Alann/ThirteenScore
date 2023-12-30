@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 export interface Player {
   id: number;
@@ -14,12 +14,16 @@ interface PlayerContextProps {
   setPlayers: (players: Player[]) => void;
 }
 
+interface Props {
+  children?: ReactNode;
+}
+
 const PlayerContext = createContext<PlayerContextProps>({
   players: [],
   setPlayers: (): [] => [],
 });
 
-export const PlayerContextProvider = ({ children }) => {
+export const PlayerContextProvider = ({ children }: Props) => {
   const [players, setPlayers] = useState<Player[]>([]);
 
   return (
