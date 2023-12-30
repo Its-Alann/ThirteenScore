@@ -168,15 +168,17 @@ export default function CollapsibleTable(props: { round: number }) {
   // const sortedPlayers = players.sort((a, b) => a.score - b.score);
 
   // Creates the rows for the table
-  const rows = players.map((player) => {
-    console.log("player array", players);
-    return createData(
-      player.name,
-      player.score,
-      player.history || [],
-      player.id
-    );
-  });
+  const rows = players
+    .map((player) => {
+      console.log("player array", players);
+      return createData(
+        player.name,
+        player.score,
+        player.history || [],
+        player.id
+      );
+    })
+    .sort((a, b) => a.score - b.score);
 
   return (
     <TableContainer
