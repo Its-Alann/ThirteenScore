@@ -13,7 +13,7 @@ const Page = () => {
   const { players, setPlayers } = usePlayerContext();
   const router = useRouter();
   const [round, setRound] = useState<number>(1);
-  const MAX_ROUND = 13;
+  const MAX_ROUND = 11;
   const [loading, setLoading] = useState(false);
 
   // Brings user back to the landing page
